@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ritika’s Web Space</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    html, body {
+      scroll-behavior: smooth;
+    }
+
+    .slide {
+      scroll-snap-align: center;
+      flex: 0 0 100%;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .slides-container {
+      scroll-snap-type: x mandatory;
+      overflow-x: auto;
+      display: flex;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .dark {
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      color: #e2e8f0;
+    }
+
+    .dark .card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+    }
+
+    .completed {
+      text-decoration: line-through;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body id="body" class="bg-gradient-to-br from-cyan-400 via-pink-400 to-yellow-300 min-h-screen font-sans transition-all duration-700">
+
+  <!-- Header -->
+  <header class="text-center py-6 fade-in">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">Ritika’s Creative Web Space</h1>
+    <p class="text-white/80 mt-2 text-lg tracking-wide">Explore • Learn • Create</p>
+    <button id="mode-toggle" class="mt-4 px-5 py-2 bg-gray-900 text-white rounded-lg shadow hover:bg-gray-700 transition">
+      Toggle Dark / Light Mode
+    </button>
+  </header>
+
+  <!-- Slider Section -->
+  <main class="relative">
+    <div class="slides-container w-full h-full flex overflow-x-auto snap-x snap-mandatory">
+      
+      <!-- Slide 1: Profile Card -->
+      <section class="slide flex justify-center items-center px-6">
+        <div class="card bg-white rounded-2xl shadow-xl p-8 w-full max-w-lg transition transform hover:-translate-y-2 hover:shadow-2xl duration-300 fade-in">
+          <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-cyan-600">
+            <i class="ph-user-circle text-3xl"></i> Profile
+          </h2>
+          <div class="flex items-center gap-5">
+            <img src="https://placehold.co/120x120/22c55e/ffffff?text=RS" alt="Profile Image" class="w-28 h-28 rounded-full border-4 border-pink-500 shadow-lg">
+            <div>
+              <h3 class="text-xl font-semibold">Ritika Srivastava</h3>
+              <p class="text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
+                Beginner web developer focusing on creative front-end design using HTML, CSS, and JavaScript.
+              </p>
+              <p class="text-sm text-gray-500 mt-2 italic">“Turning ideas into clean, interactive designs.”</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 2: Color Changer -->
+      <section class="slide flex justify-center items-center px-6">
+        <div class="card bg-white rounded-2xl shadow-xl p-8 w-full max-w-lg transition transform hover:-translate-y-2 hover:shadow-2xl duration-300 fade-in">
+          <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-pink-500">
+            <i class="ph-palette text-3xl"></i> Color Changer
+          </h2>
+          <p class="text-gray-600 mb-4">
+            Click the button to switch your background to a new color gradient.
+          </p>
+          <button id="color-button" class="w-full bg-gradient-to-r from-cyan-400 to-pink-500 hover:from-pink-500 hover:to-yellow-400 text-white font-semibold py-3 rounded-xl shadow-lg transition-all duration-300">
+            Change Background
+          </button>
+        </div>
+      </section>
+
+      <!-- Slide 3: To-Do List -->
+      <section class="slide flex justify-center items-center px-6">
+        <div class="card bg-white rounded-2xl shadow-xl p-8 w-full max-w-2xl transition transform hover:-translate-y-2 hover:shadow-2xl duration-300 fade-in">
+          <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-emerald-600">
+            <i class="ph-check-circle text-3xl"></i> To-Do List
+          </h2>
+          <div class="flex gap-2 mb-5">
+            <input id="new-task-input" type="text" placeholder="Add a new task..." class="flex-grow border border-gray-300 rounded-lg p-3 focus:ring-emerald-400 focus:border-emerald-400 transition">
+            <button id="add-task-button" class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2 rounded-lg shadow-md">Add</button>
+          </div>
+          <ul id="todo-list" class="space-y-3"></ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Navigation Hints -->
+  <div class="text-center mt-8 text-white/80 font-medium">
+    Swipe → to explore sections
+  </div>
+
+  <footer class="text-center mt-10 text-gray-700 dark:text-gray-400 pb-6">
+    <p>Designed by Ritika Srivastava • 2025</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const body = document.getElementById('body');
+    const colorButton = document.getElementById('color-button');
+    const modeToggle = document.getElementById('mode-toggle');
+
+    // Random Gradient Generator
+    function randomGradient() {
+      const gradients = [
+        ['#06b6d4', '#ec4899'],
+        ['#f43f5e', '#facc15'],
+        ['#a855f7', '#10b981'],
+        ['#6366f1', '#f59e0b'],
+        ['#14b8a6', '#3b82f6']
+      ];
+      const [c1, c2] = gradients[Math.floor(Math.random() * gradients.length)];
+      return `linear-gradient(to bottom right, ${c1}, ${c2})`;
+    }
+
+    colorButton.addEventListener('click', () => {
+      body.style.background = randomGradient();
+    });
+
+    // Dark Mode Toggle
+    modeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+    });
+
+    // To-Do List
+    const addTaskButton = document.getElementById('add-task-button');
+    const newTaskInput = document.getElementById('new-task-input');
+    const todoList = document.getElementById('todo-list');
+    let tasks = JSON.parse(localStorage.getItem('swipe-todos')) || [];
+
+    function saveTasks() {
+      localStorage.setItem('swipe-todos', JSON.stringify(tasks));
+    }
+
+    function renderTasks() {
+      todoList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.className = `flex justify-between items-center bg-gradient-to-r from-cyan-100 to-pink-100 dark:from-slate-700 dark:to-slate-800 p-3 rounded-xl shadow-sm fade-in ${task.completed ? 'completed' : ''}`;
+
+        const text = document.createElement('span');
+        text.textContent = task.text;
+        text.className = 'font-medium flex-grow';
+
+        const buttons = document.createElement('div');
+        buttons.className = 'flex gap-2';
+
+        const doneBtn = document.createElement('button');
+        doneBtn.innerHTML = '<i class="ph-check-circle text-green-600 text-xl hover:scale-110 transition"></i>';
+        doneBtn.onclick = () => toggleTask(index);
+
+        const delBtn = document.createElement('button');
+        delBtn.innerHTML = '<i class="ph-trash text-red-500 text-xl hover:scale-110 transition"></i>';
+        delBtn.onclick = () => deleteTask(index);
+
+        buttons.append(doneBtn, delBtn);
+        li.append(text, buttons);
+        todoList.appendChild(li);
+      });
+    }
+
+    function addTask() {
+      const text = newTaskInput.value.trim();
+      if (!text) return;
+      tasks.push({ text, completed: false });
+      saveTasks();
+      newTaskInput.value = '';
+      renderTasks();
+    }
+
+    function toggleTask(i) {
+      tasks[i].completed = !tasks[i].completed;
+      saveTasks();
+      renderTasks();
+    }
+
+    function deleteTask(i) {
+      tasks.splice(i, 1);
+      saveTasks();
+      renderTasks();
+    }
+
+    addTaskButton.onclick = addTask;
+    newTaskInput.addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); });
+    renderTasks();
+  </script>
+</body>
+</html>
